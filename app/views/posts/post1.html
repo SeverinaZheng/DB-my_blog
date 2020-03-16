@@ -1,0 +1,39 @@
+<html>
+	<head>
+		<title> Home
+		</title>
+
+		<style type="text/css">
+		    .popover{
+		        width:150%;
+		        max-height: 400px;
+		    }
+		</style>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+	</head>
+	<body>
+
+		<table>
+		  <thead>
+		    <tr>
+		      <th>Uid</th>
+		      <th>Name</th>
+		      <th>Year</th>
+		    </tr>
+		  </thead>
+
+		  <tbody>
+		    <% @users.each do |user| %>
+		      <tr>
+		        <td><%= user.uid %></td>
+		        <td><%= user.name %></td>
+		        <td><%= user.year %></td>
+		      </tr>
+		    <% end %>
+		  </tbody>
+		</table>
+	</body>
+</html>
