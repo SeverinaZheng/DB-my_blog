@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  root "application#index"
+  get 'all/new'
+
+  post 'all/findit' => "all#findit"
+
+  root "all#index"
   resources :sessions, only: [:new,:create,:destroy]
   resources :users
   resources :posts
