@@ -1,1 +1,55 @@
-<h1>hello</h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Home
+    </title>
+
+    <style type="text/css">
+        .popover{
+            width:150%;
+            max-height: 400px;
+        }
+        iframe{
+          border:none;
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  </head>
+  <body>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <% @results.first.attributes.keys.each do |cname| %>
+            <%if ! cname.match(/\Aid\Z/) && ! cname.match(/\Acreated_at\Z/) && ! cname.match(/\Aupdated_at\Z/)%>
+              <th><%=cname%></th>
+            <%end%>
+          <%end%>
+          
+        </tr>
+      </thead>
+
+      <tbody>
+        <%@results.each do |post| %>
+          <tr>  
+            <%post.attributes.each do |key,value| %>
+              <%if ! key.match(/\Aid\Z/) && ! key.match(/\Acreated_at\Z/) && ! key.match(/\Aupdated_at\Z/)%>
+                <td><%=value%></td>
+              <%end%>
+            <%end%>
+              
+            
+            
+            
+
+            
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </body>
+</html>

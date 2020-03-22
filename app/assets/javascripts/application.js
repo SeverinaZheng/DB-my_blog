@@ -24,14 +24,16 @@ $(document).on("click", "#execute", function() {
 							       dataType: "json",  
 							       success: function (data) {
 							           console.log(data);
-							           document.getElementById("yield").innerHTML="<h1>"+Object.values(data)[0]+Object.values(data)[1]+"</h1>";
+							           //document.getElementById("yield").innerHTML='<iframe src="/all/findit?sql=select distinct name from ( select * from ( select * from ( posts as p join users ) )where uid>5 and year<2011 )" style="width:100%"></iframe>';
+							           //document.getElementById("yield").innerHTML="<h1>"+Object.values(data)[0]+Object.values(data)[1]+"</h1>";
+							           document.getElementById("yield").innerHTML = data.html;
 							           console.log("received");
 							       },  
 							       error: function (data) {  
 							         var p = document.getElementById("yield");
 							           p.value="fail";
 							           console.log("not received");
-							       }  
+							       }
 							   });
 								function GetJsonData() {  
 								    var content = document.getElementById("inputPlace").value;
@@ -40,11 +42,11 @@ $(document).on("click", "#execute", function() {
 								    var table = [];
 								    var popOper;
 								    var sql = "";
-								    var tempTable = "";
+								    var tempTable = [];
 								    var i;
 								    var now = content.charAt(i);
 								    for(i = 0; i < content.length;){
-								    	if(now == ' '){i++;now = content.charAt(i);}
+								    	if(now == ' ' ){i++;now = content.charAt(i);}
 								    	else if(now =='('){
 								    		i++;
 								    		now = content.charAt(i);
@@ -161,25 +163,38 @@ $(document).on("click", "#execute", function() {
 
 
 								    		if(popOper == 'π'){
-								    			var col = condition.pop();
+								    			var cols = condition.pop();
 								    			sql = "select " + col +" from( " + sql +" )";
 								    			
 								    		}else if(popOper == 'x'){
+								    			console.log(table);
 								    			var t1 = table.pop();
-								    			var t2="";
-								    			if(tempTable == ""){
-													t2 = table.pop();
-								    				sql = "select * from ( " +t2 + " join " + t1 +" )";
-								    			}else sql = "select * from ( " +tempTable + " join " + t1 +" )";
+								    			var t2 = table.pop();
+								    			console.log(t2);
+								    			sql = "select * from ( " +t2 + " join " + t1 +" )";
 								    		}else if(popOper == 'σ'){
 									    		var c = condition.pop();
-									    		sql = "select * from ( " +sql+ " )"+"where " + c;
+									    		var conds = "";
+									    		for(var j = 0; j < c.length ;){
+									    			while(j < c.length && c.charAt(j) != '∧' && c.charAt(j) != '∨'){
+									    				conds += c.charAt(j);
+									    				j++;
+									    			}
+									    			if(c.charAt(j) == '∧'){
+									    				conds += " and ";
+									    				j++;
+									    			}else if(c.charAt(j) == '∨'){
+									    				conds += " or ";
+									    				j++;
+									    			}
+									    		}
+
+									    		sql = "select * from ( " +sql+ " )"+"where " + conds;
 								    		}else if(popOper == 'ρ'){
 								    			var ocol = condition.pop();
 								    			var ncol = condition.pop();
-								    			tempTable = ocol + " as " +ncol;
-									    		
-									   			
+								    			var temp = ocol + " as " +ncol;
+								    			table.push(temp);
 								    		}else if(popOper == '⨝1'){
 									    		var t1 = table.pop();
 								    			var t2="";
@@ -199,10 +214,13 @@ $(document).on("click", "#execute", function() {
 								    
 							    		}
 								    }
+
+								
 								    popOper = operator.pop();
+							
 								    if(popOper == 'π'){
 								    			var col = condition.pop();
-								    			sql = "select distict " + col +" from ( " + sql +" )";
+								    			sql = "select distinct " + col +" from ( " + sql +" )";
 								    			
 								    		}else if(popOper == 'x'){
 								    			var t1 = table.pop();
@@ -241,7 +259,7 @@ $(document).on("click", "#execute", function() {
 								    };
 
 								    return ans;*/
-
+								    console.log(sql)
 
 
 								      
